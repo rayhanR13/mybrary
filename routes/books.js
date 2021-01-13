@@ -34,7 +34,6 @@ router.get("/new", async (req, res) => {
 
 // Create book route
 router.post("/", async (req, res) => {
-    const fileName = req.file ? req.file.filename : null;
     const book = new Book({
         title: req.body.title,
         author: req.body.author,
@@ -60,8 +59,7 @@ router.get("/:id", async (req, res) => {
             .populate("author")
             .exec();
         res.render("books/show", { book: book });
-    } catch (err) {
-        console.log(err);
+    } catch {
         res.redirect("/");
     }
 });
@@ -126,11 +124,11 @@ router.delete("/:id", async (req, res) => {
 
 // All the functions
 async function renderNewPage(res, book, hasError = false) {
-    renderFormPage(res, book, "new", (hasError = false));
+    renderFormPage(res, book, "new", hasError);
 }
 
 async function renderEditPage(res, book, hasError = false) {
-    renderFormPage(res, book, "edit", (hasError = false));
+    renderFormPage(res, book, "edit", hasError);
 }
 
 async function renderFormPage(res, book, form, hasError = false) {
